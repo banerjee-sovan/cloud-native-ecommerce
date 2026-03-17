@@ -1,7 +1,7 @@
 package com.ordersystem.controller;
 
 import com.ordersystem.dto.OrderRequest;
-import com.ordersystem.dto.OrderResponse;
+import com.ordersystem.entity.Order;
 import com.ordersystem.service.OrderService;
 import jakarta.validation.Valid;
 import java.net.URI;
@@ -23,18 +23,13 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<OrderResponse> createOrder(@Valid @RequestBody OrderRequest request) {
-        OrderResponse createdOrder = orderService.createOrder(request);
+    public ResponseEntity<Order> createOrder(@Valid @RequestBody OrderRequest request) {
+        Order createdOrder = orderService.createOrder(request);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(createdOrder.getId())
                 .toUri();
 
         return ResponseEntity.created(location).body(createdOrder);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<OrderResponse> getOrderById(@PathVariable Long id) {
-        return ResponseEntity.ok(orderService.getOrderById(id));
     }
 }
