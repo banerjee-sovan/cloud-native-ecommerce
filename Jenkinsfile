@@ -11,7 +11,7 @@ pipeline {
         stage('Build Backend') {
             steps {
                 dir('backend') {
-                    bat 'mvn clean package'
+                    sh 'mvn clean package'
                 }
             }
         }
@@ -19,8 +19,8 @@ pipeline {
         stage('Build Frontend') {
             steps {
                 dir('frontend/ecommerce-ui') {
-                    bat 'npm install'
-                    bat 'npm run build'
+                    sh 'npm install'
+                    sh 'npm run build'
                 }
             }
         }
@@ -28,10 +28,10 @@ pipeline {
         stage('Build Docker Images') {
             steps {
                 dir('backend') {
-                    bat 'docker build -t cloud-native-ecommerce-backend .'
+                    sh 'docker build -t cloud-native-ecommerce-backend .'
                 }
                 dir('frontend/ecommerce-ui') {
-                    bat 'docker build -t cloud-native-ecommerce-frontend .'
+                    sh 'docker build -t cloud-native-ecommerce-frontend .'
                 }
             }
         }
