@@ -38,8 +38,12 @@ pipeline {
 
         stage('Build Docker Images') {
             steps {
-                sh 'docker build -t ecommerce-backend ./backend'
-                sh 'docker build -t ecommerce-frontend ./frontend/ecommerce-ui'
+                script {
+                    def tag = "build-${BUILD_NUMBER}"
+
+                    sh "docker build -t ecommerce-backend:${tag} ./backend"
+                    sh "docker build -t ecommerce-frontend:${tag} ./frontend/ecommerce-ui"
+                }
             }
         }
 
